@@ -47,16 +47,16 @@ $ aws iam create-policy --policy-name AWSCodeBuildPolicy --policy-document https
 $ aws iam attach-role-policy --role-name AWSCodeBuildServiceRole --policy-arn arn:aws:iam::921283538843:policy/AWSCodeBuildPolicy
 $ aws iam attach-role-policy --role-name AWSCodeBuildServiceRole --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser
 ```
+## 3.2、创建 codebuild project
+```
+$ wget https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/create-project.json
+$ wget aws codebuild create-project --cli-input-json file://create-project.json
+```
+参考文档：https://docs.aws.amazon.com/zh_cn/codebuild/latest/userguide/create-project.html#create-project-cli
 
 
-
-
-
-
-
-
-# 三、创建 codepipeline
-## 3.1、创建 codepipeline 所需 SerivceRole
+# 四、创建 codepipeline
+## 4.1、创建 codepipeline 所需 SerivceRole
 如果您的 AWS 账户中还没有 CodePipeline 服务角色，请创建一个。借助此服务角色，CodePipeline 可代表您与其他 AWS 服务进行交互，包括 AWS CodeBuild。
 ```
 $ aws iam create-role --role-name AWSCodePipelineServiceRole --assume-role-policy-document '{"Version":"2012-10-17","Statement":{"Effect":"Allow","Principal":{"Service":"codepipeline.amazonaws.com"},"Action":"sts:AssumeRole"}}'
@@ -81,7 +81,7 @@ $ aws iam create-policy --policy-name AWSCodePipelineServiceRolePolicy --policy-
 角色附加策略。
 $ aws iam attach-role-policy --role-name AWSCodePipelineServiceRole --policy-arn arn:aws:iam::921283538843:policy/AWSCodePipelineServiceRolePolicy
 ```
-## 3.2、创建 pipeline
+## 4.2、创建 pipeline
 ```
 $ wget https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/create-pipeline.json
 $ aws codepipeline create-pipeline --cli-input-json file://create-pipeline.json --region us-east-1
@@ -90,10 +90,10 @@ $ aws codepipeline create-pipeline --cli-input-json file://create-pipeline.json 
 参考文档：https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/GitHub-create-personal-token-CLI.html
 https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/pipelines-create.html#pipelines-create-cli
 
-## 3.3、为 pipeline 创建 webhook
+## 4.3、为 pipeline 创建 webhook
 ```
 $ wget https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/my-webhook.json
-$ aws codepipeline put-webhook --cli-input-json file://webhook_json.json --region us-east-1
+$ aws codepipeline put-webhook --cli-input-json file://my-webhook.json --region us-east-1
 $ aws codepipeline register-webhook-with-third-party --webhook-name nginx-ecs-webhook --region us-east-1
 ```
 相关参数可以根据自己情况填写，参考文档：https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/pipelines-webhooks-create.html。
