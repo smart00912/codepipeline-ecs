@@ -21,10 +21,69 @@ $ aws ecr create-repository --repository-name nginx-ecs --image-scanning-configu
 }
 ```
 # 三、创建 codepipeline
-## 3.1、创建所需 Role
-
-
-创建 codepipeline 服务角色
+## 3.1、创建 codepipeline 所需 SerivceRole
+如果您的 AWS 账户中还没有 CodePipeline 服务角色，请创建一个。借助此服务角色，CodePipeline 可代表您与其他 AWS 服务进行交互，包括 AWS CodeBuild。
+```
+aws iam create-role --role-name AWSCodePipelineServiceRole --assume-role-policy-document '{"Version":"2012-10-17","Statement":{"Effect":"Allow","Principal":{"Service":"codepipeline.amazonaws.com"},"Action":"sts:AssumeRole"}}'
+```
+为 codepipeline role 创建 policy，并将 policy 附加到 AWSCodePipelineServiceRole。
+```
+$ aws iam create-policy --policy-name AWSCodePipelineServiceRolePolicy --policy-document https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/AWSCodePipelineServiceRolePolicy.json
+{
+    "Policy": {
+        "PolicyName": "AWSCodePipelineServiceRolePolicy", 
+        "PermissionsBoundaryUsageCount": 0, 
+        "CreateDate": "2020-01-30T05:33:22Z", 
+        "AttachmentCount": 0, 
+        "IsAttachable": true, 
+        "PolicyId": "ANPA5NAGHF6NULEJS574V", 
+        "DefaultVersionId": "v1", 
+        "Path": "/", 
+        "Arn": "arn:aws:iam::921283538843:policy/AWSCodePipelineServiceRolePolicy", 
+        "UpdateDate": "2020-01-30T05:33:22Z"
+    }
+}
+$ aws iam attach-role-policy --role-name AWSCodePipelineServiceRole --policy-arn arn:aws:iam::921283538843:policy/AWSCodePipelineServiceRolePolicy
+```
+## 3.2、创建 pipeline
+```
+$ aws codepipeline create-pipeline --cli-input-json https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/create-pipeline.json --region us-east-1
 ```
 
-```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
