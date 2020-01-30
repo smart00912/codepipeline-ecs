@@ -1,0 +1,24 @@
+{
+  "executionRoleArn": "arn:aws:iam::921283538843:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "portMappings": [
+        {
+          "hostPort": 0,
+          "protocol": "tcp",
+          "containerPort": 80
+        }
+      ],
+      "memory": 128,
+      "image": "<IMAGE1_NAME>",
+      "essential": true,
+      "name": "nginx"
+    }
+  ],
+  "family": "ecs-nginx",
+  "requiresCompatibilities": [
+    "EC2"
+  ],
+  "networkMode": null,
+  "cpu": null,
+}
