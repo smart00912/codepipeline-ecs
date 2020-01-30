@@ -1,24 +1,24 @@
 {
-  "executionRoleArn": "arn:aws:iam::921283538843:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::921283538843:role/AWSECSTaskServiceRole",
   "containerDefinitions": [
-    {
-      "portMappings": [
-        {
-          "hostPort": 0,
-          "protocol": "tcp",
-          "containerPort": 80
-        }
-      ],
-      "memory": 128,
-      "image": "<IMAGE1_NAME>",
-      "essential": true,
-      "name": "nginx"
-    }
+      {
+          "name": "nginx",
+          "image": "<IMAGE1_NAME>",
+          "essential": true,
+          "portMappings": [
+              {
+                  "hostPort": 80,
+                  "protocol": "tcp",
+                  "containerPort": 80
+              }
+          ]
+      }
   ],
-  "family": "ecs-nginx",
   "requiresCompatibilities": [
-    "EC2"
+      "FARGATE"
   ],
-  "networkMode": null,
-  "cpu": null,
+  "networkMode": "awsvpc",
+  "cpu": "256",
+  "memory": "512",
+  "family": "nginx-ecs"
 }

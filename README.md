@@ -54,6 +54,136 @@ $ wget aws codebuild create-project --cli-input-json file://create-project.json
 ```
 参考文档：https://docs.aws.amazon.com/zh_cn/codebuild/latest/userguide/create-project.html#create-project-cli
 
+# 四、创建 ECS 蓝绿 CodeDeploy
+## 4.1、为 CodeDeploy 创建服务角色
+```
+$ aws iam create-role --role-name AWSCodeDeployServiceRole --assume-role-policy-document '{"Version":"2012-10-17","Statement":{"Effect":"Allow","Principal":{"Service":"codedeploy.amazonaws.com"},"Action":"sts:AssumeRole"}}'
+```
+附加策略。
+```
+$ aws iam attach-role-policy --role-name AWSCodeDeployServiceRole --policy-arn arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS
+```
+## 4.2、创建 ECS 使用的 ALB
+使用 create-load-balancer 命令创建 应用程序负载均衡器。指定两个不属于同一可用区的子网以及一个安全组。
+```
+aws elbv2 create-load-balancer \
+     --name nginx-ecs-bluegreen-alb \
+     --subnets subnet-694b2b35 subnet-f5761192 \
+     --security-groups sg-cdc5cf8f \
+     --region us-east-1
+```
+使用 create-target-group 命令创建目标组。此目标组将流量路由到服务中的原始任务集。
+```
+aws elbv2 create-target-group \
+     --name bluegreentarget1 \
+     --protocol HTTP \
+     --port 80 \
+     --target-type ip \
+     --vpc-id vpc-ebff4c91 \
+     --region us-east-1
+```
+```
+aws elbv2 create-target-group \
+     --name bluegreentarget2 \
+     --protocol HTTP \
+     --port 80 \
+     --target-type ip \
+     --vpc-id vpc-ebff4c91 \
+     --region us-east-1
+```
+使用 create-listener 命令创建负载均衡器侦听器，该侦听器带有将请求转发到目标组的默认规则。
+```
+aws elbv2 create-listener \
+     --load-balancer-arn arn:aws:elasticloadbalancing:us-east-1:921283538843:loadbalancer/app/nginx-ecs-bluegreen-alb/28cd5055a92630c1 \
+     --protocol HTTP \
+     --port 80 \
+     --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:us-east-1:921283538843:targetgroup/bluegreentarget1/80b89a8c4e5f574d \
+     --region us-east-1
+```
+
+## 4.3、创建 Amazon ECS 集群
+使用 create-cluster 命令创建要使用的名为 nginx-ecs-bluegreen 的集群。
+```
+aws ecs create-cluster \
+     --cluster-name nginx-ecs-bluegreen \
+     --region us-east-1
+```
+为 ECS task 创建执行角色。
+```
+$ aws iam create-role --role-name AWSECSTaskServiceRole --assume-role-policy-document '{"Version":"2012-10-17","Statement":{"Effect":"Allow","Principal":{"Service":"ecs-tasks.amazonaws.com"},"Action":"sts:AssumeRole"}}'
+```
+附加策略 AmazonECSTaskExecutionRolePolicy。
+```
+$ aws iam attach-role-policy --role-name AWSECSTaskServiceRole --policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+```
+然后，使用您创建的 fargate-task.json 文件注册任务定义。
+```
+$ wget https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/fargate-task.json
+$ aws ecs register-task-definition \
+     --cli-input-json file://fargate-task.json \
+     --region us-east-1
+```
+创建 ECS Service。
+```
+$ wget https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/service-bluegreen.json
+$ aws ecs create-service \
+     --cli-input-json file://service-bluegreen.json \
+     --region us-east-1
+```
+
+## 4.4、创建 AWS CodeDeploy 资源
+使用 create-application 命令创建 CodeDeploy 应用程序。指定 ECS 计算平台。
+```
+$ aws deploy create-application \
+     --application-name nginx-ecs \
+     --compute-platform ECS \
+     --region us-east-1
+```
+使用 create-deployment-group 命令创建 CodeDeploy 部署组。
+```
+$ wget https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/deployment-group.json
+$ aws deploy create-deployment-group \
+     --cli-input-json file://deployment-group.json \
+     --region us-east-1
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+参考文档：https://docs.aws.amazon.com/zh_cn/AmazonECS/latest/developerguide/create-blue-green.html#create-blue-green-loadbalancer
+imageDetail.json ：https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/file-reference.html#file-reference-ecs-bluegreen
+taskdef.json : https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/tutorials-ecs-ecr-codedeploy.html#tutorials-ecs-ecr-codedeploy-taskdefinition
+
+
+
+
+
+
+
+
+
+
 
 # 四、创建 codepipeline
 ## 4.1、创建 codepipeline 所需 SerivceRole

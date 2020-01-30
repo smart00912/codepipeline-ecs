@@ -1,0 +1,48 @@
+{
+   "applicationName": "nginx-ecs",
+   "autoRollbackConfiguration": {
+      "enabled": true,
+      "events": [ "DEPLOYMENT_FAILURE" ]
+   },
+   "blueGreenDeploymentConfiguration": {
+      "deploymentReadyOption": {
+         "actionOnTimeout": "CONTINUE_DEPLOYMENT",
+         "waitTimeInMinutes": 0
+      },
+      "terminateBlueInstancesOnDeploymentSuccess": {
+         "action": "TERMINATE",
+         "terminationWaitTimeInMinutes": 5
+      }
+   },
+   "deploymentGroupName": "nginx-ecs-dg",
+   "deploymentStyle": {
+      "deploymentOption": "WITH_TRAFFIC_CONTROL",
+      "deploymentType": "BLUE_GREEN"
+   },
+   "loadBalancerInfo": {
+      "targetGroupPairInfoList": [
+        {
+          "targetGroups": [
+             {
+                 "name": "bluegreentarget1"
+             },
+             {
+                 "name": "bluegreentarget2"
+             }
+          ],
+          "prodTrafficRoute": {
+              "listenerArns": [
+                  "arn:aws:elasticloadbalancing:us-east-1:921283538843:listener/app/nginx-ecs-bluegreen-alb/28cd5055a92630c1/e2fecf28ed740946"
+              ]
+          }
+        }
+      ]
+   },
+   "serviceRoleArn": "arn:aws:iam::921283538843:role/AWSCodeDeployServiceRole",
+   "ecsServices": [
+       {
+           "serviceName": "nginx-ecs",
+           "clusterName": "nginx-ecs-bluegreen"
+       }
+   ]
+}
