@@ -26,7 +26,7 @@
                             "Repo": "codepipeline-ecs", 
                             "PollForSourceChanges": "false", 
                             "Branch": "master", 
-                            "OAuthToken": "4fb1a80d8e13b6bc9e07d782737f4fc88b30705d"
+                            "OAuthToken": "0fce267bff08b73eebebbab251c56dbc39262472"
                         }, 
                         "runOrder": 1
                     }
@@ -67,7 +67,7 @@
             "type": "S3", 
             "location": "codepipeline-us-east-1-162104817224"
         }, 
-        "name": "nginx-ecs1", 
+        "name": "nginx-ecs", 
         "version": 1
     }
 }

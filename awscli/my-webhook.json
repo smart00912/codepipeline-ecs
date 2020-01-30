@@ -1,0 +1,16 @@
+{"webhook": 
+  {"name": "nginx-ecs-webhook",
+   "targetPipeline": "nginx-ecs",
+   "targetAction": "Source",
+   "filters": [
+    {
+      "jsonPath": "$.ref", 
+      "matchEquals": "refs/heads/{Branch}"
+    }
+   ],
+   "authentication": "GITHUB_HMAC",
+   "authenticationConfiguration": {
+       "SecretToken":"992056959635856536292608088833540613563322301402191095078645593164310478445738491666772646567114"
+   }
+  }
+}
