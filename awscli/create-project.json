@@ -1,42 +1,34 @@
 {
-    "logsConfig": {
-        "s3Logs": {
-            "status": "DISABLED", 
-            "encryptionDisabled": false
-        }, 
-        "cloudWatchLogs": {
-            "status": "ENABLED"
-        }
-    }, 
-    "timeoutInMinutes": 60, 
-    "name": "nginx-ecs", 
-    "serviceRole": "arn:aws:iam::921283538843:role/service-role/codebuild-nginx-ecs-service-role", 
-    "tags": [], 
-    "artifacts": {
-        "packaging": "NONE", 
-        "encryptionDisabled": false, 
-        "type": "CODEPIPELINE", 
-        "name": "nginx-ecs"
-    }, 
-    "cache": {
-        "type": "NO_CACHE"
-    }, 
-    "environment": {
-        "computeType": "BUILD_GENERAL1_SMALL", 
-        "imagePullCredentialsType": "CODEBUILD", 
-        "privilegedMode": true, 
-        "image": "aws/codebuild/amazonlinux2-x86_64-standard:2.0", 
-        "environmentVariables": [], 
-        "type": "LINUX_CONTAINER"
-    }, 
-    "source": {
-        "insecureSsl": false, 
-        "type": "CODEPIPELINE"
-    }, 
-    "queuedTimeoutInMinutes": 480, 
-    "badge": {
-        "badgeEnabled": false
-    }, 
-    "encryptionKey": "arn:aws:kms:us-east-1:921283538843:alias/aws/s3", 
-    "secondarySourceVersions": []
+  "name": "nginx-ecs",
+  "source": {
+    "type": "CODEPIPELINE",
+    "buildspec": ""
+  },
+  "artifacts": {
+    "type": "CODEPIPELINE",
+    "packaging": "NONE"    
+  },
+  "cache": {
+    "type": "NO_CACHE"
+  },
+  "logsConfig": {
+    "cloudWatchLogs": {
+      "status": "ENABLED"
+    },
+    "s3Logs": {
+      "status": "DISABLED",
+      "encryptionDisabled": false
+    }
+  },
+  "serviceRole": "arn:aws:iam::921283538843:role/AWSCodeBuildServiceRole",
+  "timeoutInMinutes": 60,
+  "environment": {
+    "type": "LINUX_CONTAINER",
+    "image": "aws/codebuild/amazonlinux2-x86_64-standard:2.0",
+    "computeType": "BUILD_GENERAL1_SMALL",
+    "environmentVariables": [], 
+    "imagePullCredentialsType": "CODEBUILD",
+    "privilegedMode": true
+  },
+  "badgeEnabled": false
 }

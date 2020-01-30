@@ -20,11 +20,46 @@ $ aws ecr create-repository --repository-name nginx-ecs --image-scanning-configu
     }
 }
 ```
+# 三、创建 codebuild project
+## 3.1、创建 ServiceRole
+codebuild 需要获取 s3 等权限。
+```
+$ aws iam create-role --role-name AWSCodeBuildServiceRole --assume-role-policy-document '{"Version":"2012-10-17","Statement":{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}}'
+```
+创建 policy。
+```
+$ aws iam create-policy --policy-name AWSCodeBuildPolicy --policy-document https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/AWSCodeBuildPolicy.json
+{
+    "Policy": {
+        "PolicyName": "AWSCodeBuildPolicy", 
+        "PermissionsBoundaryUsageCount": 0, 
+        "CreateDate": "2020-01-30T09:34:36Z", 
+        "AttachmentCount": 0, 
+        "IsAttachable": true, 
+        "PolicyId": "ANPA5NAGHF6NYARCBUGDT", 
+        "DefaultVersionId": "v1", 
+        "Path": "/", 
+        "Arn": "arn:aws:iam::921283538843:policy/AWSCodeBuildPolicy", 
+        "UpdateDate": "2020-01-30T09:34:36Z"
+    }
+}
+角色附加策略。
+$ aws iam attach-role-policy --role-name AWSCodeBuildServiceRole --policy-arn arn:aws:iam::921283538843:policy/AWSCodeBuildPolicy
+$ aws iam attach-role-policy --role-name AWSCodeBuildServiceRole --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser
+```
+
+
+
+
+
+
+
+
 # 三、创建 codepipeline
 ## 3.1、创建 codepipeline 所需 SerivceRole
 如果您的 AWS 账户中还没有 CodePipeline 服务角色，请创建一个。借助此服务角色，CodePipeline 可代表您与其他 AWS 服务进行交互，包括 AWS CodeBuild。
 ```
-aws iam create-role --role-name AWSCodePipelineServiceRole --assume-role-policy-document '{"Version":"2012-10-17","Statement":{"Effect":"Allow","Principal":{"Service":"codepipeline.amazonaws.com"},"Action":"sts:AssumeRole"}}'
+$ aws iam create-role --role-name AWSCodePipelineServiceRole --assume-role-policy-document '{"Version":"2012-10-17","Statement":{"Effect":"Allow","Principal":{"Service":"codepipeline.amazonaws.com"},"Action":"sts:AssumeRole"}}'
 ```
 为 codepipeline role 创建 policy，并将 policy 附加到 AWSCodePipelineServiceRole。
 ```
@@ -43,6 +78,7 @@ $ aws iam create-policy --policy-name AWSCodePipelineServiceRolePolicy --policy-
         "UpdateDate": "2020-01-30T05:33:22Z"
     }
 }
+角色附加策略。
 $ aws iam attach-role-policy --role-name AWSCodePipelineServiceRole --policy-arn arn:aws:iam::921283538843:policy/AWSCodePipelineServiceRolePolicy
 ```
 ## 3.2、创建 pipeline
@@ -58,7 +94,7 @@ https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/pipelines-create
 ```
 $ wget https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/my-webhook.json
 $ aws codepipeline put-webhook --cli-input-json file://webhook_json.json --region us-east-1
-$ aws codepipeline register-webhook-with-third-party nginx-ecs-webhook
+$ aws codepipeline register-webhook-with-third-party --webhook-name nginx-ecs-webhook --region us-east-1
 ```
 相关参数可以根据自己情况填写，参考文档：https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/pipelines-webhooks-create.html。
 获得了 webhook 的相关信息之后，我们登陆 github，选择相应的存储库，
