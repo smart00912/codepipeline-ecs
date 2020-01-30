@@ -47,11 +47,21 @@ $ aws iam attach-role-policy --role-name AWSCodePipelineServiceRole --policy-arn
 ```
 ## 3.2、创建 pipeline
 ```
-$ aws codepipeline create-pipeline --cli-input-json https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/create-pipeline.json --region us-east-1
+$ wget https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/create-pipeline.json
+$ aws codepipeline create-pipeline --cli-input-json file://create-pipeline.json --region us-east-1
 ```
+注意：文档中的 OAuthToken 自己去 github 中去申请。
+参考文档：https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/GitHub-create-personal-token-CLI.html
+https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/pipelines-create.html#pipelines-create-cli
 
-
-
+## 3.3、为 pipeline 创建 webhook
+```
+$ wget https://raw.githubusercontent.com/wangzan18/codepipeline-ecs/master/awscli/my-webhook.json
+$ aws codepipeline put-webhook --cli-input-json file://webhook_json.json --region us-east-1
+$ aws codepipeline register-webhook-with-third-party nginx-ecs-webhook
+```
+相关参数可以根据自己情况填写，参考文档：https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/pipelines-webhooks-create.html。
+获得了 webhook 的相关信息之后，我们登陆 github，选择相应的存储库，
 
 
 
