@@ -1,73 +1,103 @@
 {
-    "pipeline": {
-        "roleArn": "arn:aws:iam::921283538843:role/AWSCodePipelineServiceRole", 
-        "stages": [
-            {
-                "name": "Source", 
-                "actions": [
-                    {
-                        "inputArtifacts": [], 
-                        "name": "Source", 
-                        "region": "us-east-1", 
-                        "namespace": "SourceVariables", 
-                        "actionTypeId": {
-                            "category": "Source", 
-                            "owner": "ThirdParty", 
-                            "version": "1", 
-                            "provider": "GitHub"
-                        }, 
-                        "outputArtifacts": [
-                            {
-                                "name": "SourceArtifact"
-                            }
-                        ], 
-                        "configuration": {
-                            "Owner": "wangzan18", 
-                            "Repo": "codepipeline-ecs", 
-                            "PollForSourceChanges": "false", 
-                            "Branch": "master", 
-                            "OAuthToken": "9cc7ae327923cfdc2d41b0d7fafef5ab21b53d0e"
-                        }, 
-                        "runOrder": 1
-                    }
-                ]
+  "pipeline": {
+    "name": "nginx-ecs", 
+    "version": 1,
+    "roleArn": "arn:aws:iam::921283538843:role/AWSCodePipelineServiceRole", 
+    "stages": [
+      {
+        "name": "Source", 
+        "actions": [
+          {
+            "inputArtifacts": [], 
+            "name": "Source", 
+            "region": "us-east-1", 
+            "namespace": "SourceVariables", 
+            "actionTypeId": {
+              "category": "Source", 
+              "owner": "ThirdParty", 
+              "version": "1", 
+              "provider": "GitHub"
             }, 
-            {
-                "name": "Build", 
-                "actions": [
-                    {
-                        "inputArtifacts": [
-                            {
-                                "name": "SourceArtifact"
-                            }
-                        ], 
-                        "name": "Build", 
-                        "region": "us-east-1", 
-                        "namespace": "BuildVariables", 
-                        "actionTypeId": {
-                            "category": "Build", 
-                            "owner": "AWS", 
-                            "version": "1", 
-                            "provider": "CodeBuild"
-                        }, 
-                        "outputArtifacts": [
-                            {
-                                "name": "BuildArtifact"
-                            }
-                        ], 
-                        "configuration": {
-                            "ProjectName": "nginx-ecs"
-                        }, 
-                        "runOrder": 1
-                    }
-                ]
-            }
-        ], 
-        "artifactStore": {
-            "type": "S3", 
-            "location": "codepipeline-us-east-1-162104817224"
-        }, 
-        "name": "nginx-ecs", 
-        "version": 1
+            "outputArtifacts": [
+              {
+                "name": "SourceArtifact"
+              }
+            ], 
+            "configuration": {
+              "Owner": "wangzan18", 
+              "Repo": "codepipeline-ecs", 
+              "PollForSourceChanges": "false", 
+              "Branch": "master", 
+              "OAuthToken": "9cc7ae327923cfdc2d41b0d7fafef5ab21b53d0e"
+            }, 
+            "runOrder": 1
+          }
+        ]
+      }, 
+      {
+        "name": "Build", 
+        "actions": [
+          {
+            "inputArtifacts": [
+              {
+                "name": "SourceArtifact"
+              }
+            ], 
+            "name": "Build", 
+            "region": "us-east-1", 
+            "namespace": "BuildVariables", 
+            "actionTypeId": {
+              "category": "Build", 
+              "owner": "AWS", 
+              "version": "1", 
+              "provider": "CodeBuild"
+            }, 
+            "outputArtifacts": [
+              {
+                "name": "BuildArtifact"
+              }
+            ], 
+            "configuration": {
+              "ProjectName": "nginx-ecs"
+            }, 
+            "runOrder": 1
+          }
+        ]
+      },
+      {
+        "name": "Deploy", 
+        "actions": [
+          {
+            "inputArtifacts": [
+              {
+                "name": "BuildArtifact"
+              }
+            ], 
+            "name": "Deploy", 
+            "region": "us-east-1", 
+            "actionTypeId": {
+              "category": "Deploy", 
+              "owner": "AWS", 
+              "version": "1", 
+              "provider": "CodeDeployToECS"
+            }, 
+            "outputArtifacts": [], 
+            "configuration": {
+              "ApplicationName": "nginx-ecs", 
+              "Image1ArtifactName": "BuildArtifact", 
+              "TaskDefinitionTemplateArtifact": "BuildArtifact", 
+              "Image1ContainerName": "IMAGE1_NAME", 
+              "AppSpecTemplateArtifact": "BuildArtifact", 
+              "DeploymentGroupName": "nginx-ecs-dg"
+            }, 
+            "runOrder": 1
+          }
+        ]
+      }
+    ], 
+    "artifactStore": {
+      "type": "S3", 
+      "location": "codepipeline-us-east-1-162104817224"
     }
+  }
 }
