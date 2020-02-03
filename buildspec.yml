@@ -24,7 +24,6 @@ phases:
   build:
     commands:
       - echo "<br>" >> htdocs/index.html
-      - echo "Build time: " >> htdocs/index.html
       - echo $(date '+%Y-%m-%d %H:%M:%S') >> htdocs/index.html
       - echo Build started on `date`
       - echo Building the Docker image...
