@@ -23,7 +23,8 @@ phases:
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
-      - echo "\n部署时间：" >> htdocs/index.html
+      - echo "<br>" >> htdocs/index.html
+      - echo "Build time：" >> htdocs/index.html
       - echo $(date '+%Y-%m-%d %H:%M:%S') >> htdocs/index.html
       - echo "<br>" >> htdocs/index.html
       - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:$IMAGE_TAG >> htdocs/index.html 
