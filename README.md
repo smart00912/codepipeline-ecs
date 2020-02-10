@@ -3,7 +3,7 @@
 # 一、架构图
 ## 1.1、架构图
 
-![](https://s1.51cto.com/images/blog/202002/10/bfd122396bc6aa80c7e23a3f0c8aa060.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)
+![](https://s1.51cto.com/images/blog/202002/10/bfd122396bc6aa80c7e23a3f0c8aa060.png)
 
 ## 1.2、一些文件解释
 
