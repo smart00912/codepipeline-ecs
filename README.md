@@ -3,6 +3,7 @@
 # 一、架构图
 ## 1.1、架构图
 
+![](https://s1.51cto.com/images/blog/202002/10/bfd122396bc6aa80c7e23a3f0c8aa060.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)
 
 ## 1.2、一些文件解释
 
@@ -217,36 +218,6 @@ $ aws codepipeline register-webhook-with-third-party --webhook-name nginx-ecs-we
 相关参数可以根据自己情况填写，参考文档：https://docs.aws.amazon.com/zh_cn/codepipeline/latest/userguide/pipelines-webhooks-create.html。
 
 获得了 webhook 的相关信息之后，我们登陆 github，选择相应的存储库，
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
