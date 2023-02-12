@@ -32,13 +32,13 @@
           ],
           "prodTrafficRoute": {
               "listenerArns": [
-                  "arn:aws:elasticloadbalancing:us-east-1:921283538843:listener/app/nginx-ecs-bluegreen-alb/28cd5055a92630c1/e2fecf28ed740946"
+                  "arn:aws:elasticloadbalancing:us-east-1:306584628833:listener/app/nginx-ecs-bluegreen-alb/28cd5055a92630c1/e2fecf28ed740946"
               ]
           }
         }
       ]
    },
-   "serviceRoleArn": "arn:aws:iam::921283538843:role/AWSCodeDeployServiceRole",
+   "serviceRoleArn": "arn:aws:iam::306584628833:role/AWSCodeDeployServiceRole",
    "ecsServices": [
        {
            "serviceName": "nginx-ecs",

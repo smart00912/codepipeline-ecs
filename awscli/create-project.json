@@ -20,7 +20,7 @@
       "encryptionDisabled": false
     }
   },
-  "serviceRole": "arn:aws:iam::921283538843:role/AWSCodeBuildServiceRole",
+  "serviceRole": "arn:aws:iam::306584628833:role/AWSCodeBuildServiceRole",
   "timeoutInMinutes": 60,
   "environment": {
     "type": "LINUX_CONTAINER",

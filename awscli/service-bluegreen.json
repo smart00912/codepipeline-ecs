@@ -4,7 +4,7 @@
   "taskDefinition": "nginx-ecs",
   "loadBalancers": [
     {
-      "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:921283538843:targetgroup/bluegreentarget1/80b89a8c4e5f574d",
+      "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:306584628833:targetgroup/bluegreentarget1/80b89a8c4e5f574d",
       "containerName": "nginx",
       "containerPort": 80
     }

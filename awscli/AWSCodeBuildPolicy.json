@@ -4,8 +4,8 @@
         {
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:logs:us-east-1:921283538843:log-group:/aws/codebuild",
-                "arn:aws:logs:us-east-1:921283538843:log-group:/aws/codebuild/*"
+                "arn:aws:logs:us-east-1:306584628833:log-group:/aws/codebuild",
+                "arn:aws:logs:us-east-1:306584628833:log-group:/aws/codebuild/*"
             ],
             "Action": [
                 "logs:CreateLogGroup",
@@ -35,7 +35,7 @@
                 "codebuild:BatchPutTestCases"
             ],
             "Resource": [
-                "arn:aws:codebuild:us-east-1:921283538843:report-group/*"
+                "arn:aws:codebuild:us-east-1:306584628833:report-group/*"
             ]
         }
     ]

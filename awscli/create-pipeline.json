@@ -2,7 +2,7 @@
   "pipeline": {
     "name": "nginx-ecs", 
     "version": 1,
-    "roleArn": "arn:aws:iam::921283538843:role/AWSCodePipelineServiceRole", 
+    "roleArn": "arn:aws:iam::306584628833:role/AWSCodePipelineServiceRole", 
     "stages": [
       {
         "name": "Source", 
