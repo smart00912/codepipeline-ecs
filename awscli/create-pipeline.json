@@ -24,11 +24,11 @@
               }
             ], 
             "configuration": {
-              "Owner": "wangzan18", 
+              "Owner": "smart00912", 
               "Repo": "codepipeline-ecs", 
               "PollForSourceChanges": "false", 
-              "Branch": "master", 
-              "OAuthToken": "9cc7ae327923cfdc2d41b0d7fafef5ab21b53d0e"
+              "Branch": "master",
+              "OAuthToken": "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"
             }, 
             "runOrder": 1
           }
@@ -97,7 +97,7 @@
     ], 
     "artifactStore": {
       "type": "S3", 
-      "location": "codepipeline-us-east-1-162104817224"
+      "location": "poc-bucket-306584628833"
     }
   }
 }

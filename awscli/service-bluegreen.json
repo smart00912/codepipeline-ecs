@@ -4,7 +4,7 @@
   "taskDefinition": "nginx-ecs",
   "loadBalancers": [
     {
-      "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:306584628833:targetgroup/bluegreentarget1/80b89a8c4e5f574d",
+      "targetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:306584628833:targetgroup/bluegreentarget1/20803314e75f496a",
       "containerName": "nginx",
       "containerPort": 80
     }
@@ -18,9 +18,10 @@
   "networkConfiguration": {
      "awsvpcConfiguration": {
         "assignPublicIp": "ENABLED",
-        "securityGroups": [ "sg-cdc5cf8f" ],
-        "subnets": [ "subnet-694b2b35", "subnet-f5761192" ]
+        "securityGroups": [ "sg-028b738d22c0a1bd3" ],
+        "subnets": [ "subnet-0bab626a61b0fe395", "subnet-04438be7f01ef29f1" ]
      }
   },
   "desiredCount": 1
 }
+

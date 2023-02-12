@@ -32,7 +32,7 @@
           ],
           "prodTrafficRoute": {
               "listenerArns": [
-                  "arn:aws:elasticloadbalancing:us-east-1:306584628833:listener/app/nginx-ecs-bluegreen-alb/28cd5055a92630c1/e2fecf28ed740946"
+                  "arn:aws:elasticloadbalancing:us-east-1:306584628833:listener/app/nginx-ecs-bluegreen-alb/bc7773018ec6e043/0889fa62268062b3"
               ]
           }
         }
